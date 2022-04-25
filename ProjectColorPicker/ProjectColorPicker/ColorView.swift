@@ -10,11 +10,11 @@ import UIKit
 class ColorView: UIView {
 
     lazy var stackColorView: UIStackView = {
-        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, firstSwitch])
+        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, stackSwitchView])
         stackColorView.translatesAutoresizingMaskIntoConstraints = false
         stackColorView.axis = .vertical
         stackColorView.spacing = 30
-        stackColorView.backgroundColor = .orange
+//        stackColorView.backgroundColor = .orange
         return stackColorView
     }()
     
@@ -25,6 +25,16 @@ class ColorView: UIView {
         return colorView
     }()
     
+    lazy var stackSwitchView: UIStackView = {
+        let stackSwitchView = UIStackView(arrangedSubviews: [firstSwitch, secondSwitch, thirdSwitch])
+        stackSwitchView.translatesAutoresizingMaskIntoConstraints = false
+        stackSwitchView.axis = .vertical
+        stackSwitchView.distribution = .fillProportionally
+        stackSwitchView.alignment = .center
+//        stackSwitchView.backgroundColor = .brown
+        return stackSwitchView
+    }()
+    
     lazy var firstSwitch: UISwitch = {
        let firstSwitch = UISwitch()
         firstSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -32,15 +42,19 @@ class ColorView: UIView {
         return firstSwitch
     }()
     
-//    lazy var stackSwitchView: UIStackView = {
-//        let stackSwitchView = UIStackView()
-//        stackSwitchView.translatesAutoresizingMaskIntoConstraints = false
-//        stackSwitchView.axis = .vertical
-//        stackSwitchView.spacing = 30
-//        stackSwitchView.backgroundColor = .brown
-//        return stackSwitchView
-//    }()
+    lazy var secondSwitch: UISwitch = {
+       let secondSwitch = UISwitch()
+        secondSwitch.translatesAutoresizingMaskIntoConstraints = false
+        secondSwitch.addTarget(self, action: #selector(changedColorView(mySwitch:)), for: UIControl.Event.valueChanged)
+        return secondSwitch
+    }()
     
+    lazy var thirdSwitch: UISwitch = {
+       let thirdSwitch = UISwitch()
+        thirdSwitch.translatesAutoresizingMaskIntoConstraints = false
+        thirdSwitch.addTarget(self, action: #selector(changedColorView(mySwitch:)), for: UIControl.Event.valueChanged)
+        return thirdSwitch
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,14 +80,27 @@ class ColorView: UIView {
             stackColorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             stackColorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30)
         ])
+        coloredRectangle.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        stackSwitchView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     @objc func changedColorView(mySwitch: UISwitch){
-        if mySwitch.isOn{
-            coloredRectangle.backgroundColor = .systemPink
-        } else {
-            coloredRectangle.backgroundColor = .gray
+        var red :  CGFloat = 0
+        var green : CGFloat = 0
+        var blue : CGFloat = 0
+        
+        if firstSwitch.isOn{
+            red = 1
         }
+        if secondSwitch.isOn{
+            green = 1
+        }
+        if thirdSwitch.isOn{
+            blue = 1
+        }
+    
+        let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
+        coloredRectangle.backgroundColor = color
+        
     }
-
 }

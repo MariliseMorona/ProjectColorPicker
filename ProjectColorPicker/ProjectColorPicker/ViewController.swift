@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             colorView.topAnchor.constraint(equalTo: view.topAnchor),
             colorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            colorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            colorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             colorView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
             ])
         
