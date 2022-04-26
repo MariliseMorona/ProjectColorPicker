@@ -18,14 +18,16 @@ class ColorView: UIView {
         stackColorView.translatesAutoresizingMaskIntoConstraints = false
         stackColorView.axis = .vertical
         stackColorView.spacing = 30
-        stackColorView.backgroundColor = .orange
+
         return stackColorView
     }()
     
     lazy var coloredRectangle : UIView = {
         let colorView = UIView()
         colorView.translatesAutoresizingMaskIntoConstraints = false
-        colorView.backgroundColor = .black
+        colorView.layer.borderWidth = 5
+        colorView.layer.borderColor = UIColor.black.cgColor
+        colorView.layer.cornerRadius = 20
         return colorView
     }()
     
@@ -34,7 +36,6 @@ class ColorView: UIView {
         stackSelectorView.translatesAutoresizingMaskIntoConstraints = false
         stackSelectorView.axis = .vertical
         stackSelectorView.distribution = .fillEqually
-        stackSelectorView.backgroundColor = .brown
         return stackSelectorView
     }()
     
@@ -43,7 +44,6 @@ class ColorView: UIView {
         stackFirstSelector.translatesAutoresizingMaskIntoConstraints = false
         stackFirstSelector.axis = .horizontal
         stackFirstSelector.distribution = .fillEqually
-        stackFirstSelector.backgroundColor = .green
         stackFirstSelector.alignment = .center
         return stackFirstSelector
     }()
@@ -53,7 +53,6 @@ class ColorView: UIView {
         stackSecondSelector.translatesAutoresizingMaskIntoConstraints = false
         stackSecondSelector.axis = .horizontal
         stackSecondSelector.distribution = .fillEqually
-        stackSecondSelector.backgroundColor = .gray
         stackSecondSelector.alignment = .center
         return stackSecondSelector
     }()
@@ -63,7 +62,6 @@ class ColorView: UIView {
         stackThirdSelector.translatesAutoresizingMaskIntoConstraints = false
         stackThirdSelector.axis = .horizontal
         stackThirdSelector.distribution = .fillEqually
-        stackThirdSelector.backgroundColor = .red
         stackThirdSelector.alignment = .center
         return stackThirdSelector
     }()
@@ -73,6 +71,7 @@ class ColorView: UIView {
        let firstSwitch = UISwitch()
         firstSwitch.translatesAutoresizingMaskIntoConstraints = false
         firstSwitch.addTarget(self, action: #selector(changedColorView(mySwitch:)), for: UIControl.Event.valueChanged)
+        firstSwitch.onTintColor = .red
         return firstSwitch
     }()
     
@@ -80,6 +79,7 @@ class ColorView: UIView {
        let secondSwitch = UISwitch()
         secondSwitch.translatesAutoresizingMaskIntoConstraints = false
         secondSwitch.addTarget(self, action: #selector(changedColorView(mySwitch:)), for: UIControl.Event.valueChanged)
+        secondSwitch.onTintColor = .green
         return secondSwitch
     }()
     
@@ -87,6 +87,7 @@ class ColorView: UIView {
        let thirdSwitch = UISwitch()
         thirdSwitch.translatesAutoresizingMaskIntoConstraints = false
         thirdSwitch.addTarget(self, action: #selector(changedColorView(mySwitch:)), for: UIControl.Event.valueChanged)
+        thirdSwitch.onTintColor = .blue
         return thirdSwitch
     }()
     
@@ -96,7 +97,6 @@ class ColorView: UIView {
         stackSliderView.axis = .vertical
         stackSliderView.distribution = .fillProportionally
         stackSliderView.alignment = .center
-        stackSliderView.backgroundColor = .systemPink
         return stackSliderView
     }()
     
@@ -104,6 +104,7 @@ class ColorView: UIView {
         let firstSlider = UISlider()
         firstSlider.translatesAutoresizingMaskIntoConstraints = false
         firstSlider.addTarget(self, action: #selector(changedColorViewWithSlider(mySlider: )), for: UIControl.Event.valueChanged)
+        firstSlider.minimumTrackTintColor = .red
         return firstSlider
     }()
     
@@ -111,6 +112,7 @@ class ColorView: UIView {
         let secondSlider = UISlider()
         secondSlider.translatesAutoresizingMaskIntoConstraints = false
         secondSlider.addTarget(self, action: #selector(changedColorViewWithSlider(mySlider: )), for: UIControl.Event.valueChanged)
+        secondSlider.minimumTrackTintColor = .green
         return secondSlider
     }()
     
@@ -118,6 +120,7 @@ class ColorView: UIView {
         let thirdSlider = UISlider()
         thirdSlider.translatesAutoresizingMaskIntoConstraints = false
         thirdSlider.addTarget(self, action: #selector(changedColorViewWithSlider(mySlider: )), for: UIControl.Event.valueChanged)
+        thirdSlider.minimumTrackTintColor = .blue
         return thirdSlider
     }()
     
@@ -197,5 +200,10 @@ class ColorView: UIView {
         thirdSlider.value = 0
         
         updateColorView()
+    }
+    func updateControls(){
+        firstSlider.isEnabled = firstSwitch.isOn
+        secondSlider.isEnabled = secondSwitch.isOn
+        thirdSlider.isEnabled = thirdSwitch.isOn
     }
 }
