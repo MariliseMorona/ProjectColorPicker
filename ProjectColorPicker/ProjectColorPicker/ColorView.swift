@@ -9,8 +9,12 @@ import UIKit
 
 class ColorView: UIView {
 
+    var red :  CGFloat = 0
+    var green : CGFloat = 0
+    var blue : CGFloat = 0
+    
     lazy var stackColorView: UIStackView = {
-        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, stackSelectorView])
+        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, stackSelectorView, resetButton])
         stackColorView.translatesAutoresizingMaskIntoConstraints = false
         stackColorView.axis = .vertical
         stackColorView.spacing = 30
@@ -117,6 +121,13 @@ class ColorView: UIView {
         return thirdSlider
     }()
     
+    lazy var resetButton: UIButton = {
+        let resetButton = UIButton()
+        resetButton.setTitle("reset", for: .normal)
+        resetButton.addTarget(self, action: #selector(tappedButton(sender:)), for: .touchUpInside)
+        return resetButton
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUp()
@@ -145,31 +156,46 @@ class ColorView: UIView {
         stackSelectorView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
-    @objc func changedColorView(mySwitch: UISwitch){
-        var red :  CGFloat = 0
-        var green : CGFloat = 0
-        var blue : CGFloat = 0
+    func updateColorView(){
         
         if firstSwitch.isOn{
             red = CGFloat(firstSlider.value)
+        } else {
+            red = 0
         }
+        
         if secondSwitch.isOn{
             green = CGFloat(secondSlider.value)
+        } else {
+            green = 0
         }
+        
         if thirdSwitch.isOn{
             blue = CGFloat(thirdSlider.value)
+        } else {
+            blue = 0
         }
-    
+        
         let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
         coloredRectangle.backgroundColor = color
+    }
+    
+    @objc func changedColorView(mySwitch: UISwitch){
+        updateColorView()
         
     }
     @objc func changedColorViewWithSlider(mySlider: UISlider){
-        let redSlider = CGFloat(firstSlider.value)
-        let greenSlider = CGFloat(secondSlider.value)
-        let blueSlider = CGFloat(thirdSlider.value)
+        updateColorView()
+    }
+    
+    @objc func tappedButton(sender: UIButton){
+        firstSwitch.isOn = false
+        secondSwitch.isOn = false
+        thirdSwitch.isOn = false
+        firstSlider.value = 0
+        secondSlider.value = 0
+        thirdSlider.value = 0
         
-        let color = UIColor(red: redSlider, green: greenSlider, blue: blueSlider, alpha: 1)
-        coloredRectangle.backgroundColor = color
+        updateColorView()
     }
 }
