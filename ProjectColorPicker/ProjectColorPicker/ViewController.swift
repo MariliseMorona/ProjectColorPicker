@@ -7,14 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    let colorView = ColorView()
+class ViewController: UIViewController{
+    
+    var colorView = ColorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUp()
+        colorView.updateControls()
         
     }
     

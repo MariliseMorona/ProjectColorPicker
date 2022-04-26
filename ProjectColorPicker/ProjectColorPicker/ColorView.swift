@@ -8,7 +8,7 @@
 import UIKit
 
 class ColorView: UIView {
-
+    
     var red :  CGFloat = 0
     var green : CGFloat = 0
     var blue : CGFloat = 0
@@ -201,9 +201,11 @@ class ColorView: UIView {
         
         updateColorView()
     }
+    
     func updateControls(){
         firstSlider.isEnabled = firstSwitch.isOn
         secondSlider.isEnabled = secondSwitch.isOn
         thirdSlider.isEnabled = thirdSwitch.isOn
     }
+   
 }

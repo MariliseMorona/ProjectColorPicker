@@ -59,10 +59,10 @@
 				48608BCE2817545B00D672AB /* AppDelegate.swift */,
 				48608BD02817545B00D672AB /* SceneDelegate.swift */,
 				48608BD22817545B00D672AB /* ViewController.swift */,
+				48608BE22817564A00D672AB /* ColorView.swift */,
 				48608BD72817545D00D672AB /* Assets.xcassets */,
 				48608BD92817545D00D672AB /* LaunchScreen.storyboard */,
 				48608BDC2817545D00D672AB /* Info.plist */,
-				48608BE22817564A00D672AB /* ColorView.swift */,
 			);
 			path = ProjectColorPicker;
 			sourceTree = "<group>";
