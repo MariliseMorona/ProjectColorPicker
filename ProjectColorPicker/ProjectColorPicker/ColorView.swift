@@ -9,12 +9,10 @@ import UIKit
 
 class ColorView: UIView {
     
-    var red :  CGFloat = 0
-    var green : CGFloat = 0
-    var blue : CGFloat = 0
+    var colors = Colors(red: 0, green: 0, blue: 0)
     
     lazy var stackColorView: UIStackView = {
-        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, stackSelectorView, resetButton])
+        let stackColorView = UIStackView(arrangedSubviews: [coloredRectangle, stackSelectorView, viewForButton])
         stackColorView.translatesAutoresizingMaskIntoConstraints = false
         stackColorView.axis = .vertical
         stackColorView.spacing = 30
@@ -28,6 +26,7 @@ class ColorView: UIView {
         colorView.layer.borderWidth = 5
         colorView.layer.borderColor = UIColor.black.cgColor
         colorView.layer.cornerRadius = 20
+        colorView.backgroundColor = colors.colorDefault()
         return colorView
     }()
     
@@ -35,7 +34,7 @@ class ColorView: UIView {
         let stackSelectorView = UIStackView(arrangedSubviews: [stackFirstSelector, stackSecondSelector, stackThirdSelector])
         stackSelectorView.translatesAutoresizingMaskIntoConstraints = false
         stackSelectorView.axis = .vertical
-        stackSelectorView.distribution = .fillEqually
+        stackSelectorView.distribution = .fillProportionally
         return stackSelectorView
     }()
     
@@ -124,10 +123,19 @@ class ColorView: UIView {
         return thirdSlider
     }()
     
+    lazy var viewForButton: UIView = {
+        let viewButton = UIView()
+        viewButton.translatesAutoresizingMaskIntoConstraints = false
+        return viewButton
+    }()
+    
     lazy var resetButton: UIButton = {
         let resetButton = UIButton()
-        resetButton.setTitle("reset", for: .normal)
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        resetButton.setTitle("Reset", for: .normal)
         resetButton.addTarget(self, action: #selector(tappedButton(sender:)), for: .touchUpInside)
+        resetButton.backgroundColor = .gray
+        resetButton.layer.cornerRadius = 5
         return resetButton
     }()
     
@@ -142,7 +150,9 @@ class ColorView: UIView {
     
     private func setUp(){
         addSubview(stackColorView)
+        viewForButton.addSubview(resetButton)
         constraintLayout()
+        
         
     }
     
@@ -157,14 +167,25 @@ class ColorView: UIView {
         ])
         coloredRectangle.heightAnchor.constraint(equalToConstant: 300).isActive = true
         stackSelectorView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        viewForButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        resetButton.topAnchor.constraint(equalTo: viewForButton.topAnchor, constant: 30).isActive = true
+        resetButton.trailingAnchor.constraint(equalTo: viewForButton.trailingAnchor, constant: -90).isActive = true
+        resetButton.bottomAnchor.constraint(equalTo: viewForButton.bottomAnchor, constant: -30).isActive = true
+        resetButton.leadingAnchor.constraint(equalTo: viewForButton.leadingAnchor, constant: 90).isActive = true
+        
     }
     
     func updateColorView(){
+        var red: CGFloat
+        var green: CGFloat
+        var blue: CGFloat
         
         if firstSwitch.isOn{
             red = CGFloat(firstSlider.value)
         } else {
             red = 0
+            
         }
         
         if secondSwitch.isOn{
@@ -179,8 +200,8 @@ class ColorView: UIView {
             blue = 0
         }
         
-        let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
-        coloredRectangle.backgroundColor = color
+        let newColor = colors.updateColor(red: red, green: green, blue: blue)
+        coloredRectangle.backgroundColor = newColor
     }
     
     @objc func changedColorView(mySwitch: UISwitch){
@@ -192,6 +213,16 @@ class ColorView: UIView {
     }
     
     @objc func tappedButton(sender: UIButton){
+        resetColor()
+    }
+    
+    func updateControls(){
+        firstSlider.isEnabled = !firstSwitch.isOn
+        secondSlider.isEnabled = !secondSwitch.isOn
+        thirdSlider.isEnabled = !thirdSwitch.isOn
+    }
+    
+    func resetColor(){
         firstSwitch.isOn = false
         secondSwitch.isOn = false
         thirdSwitch.isOn = false
@@ -200,12 +231,6 @@ class ColorView: UIView {
         thirdSlider.value = 0
         
         updateColorView()
-    }
-    
-    func updateControls(){
-        firstSlider.isEnabled = firstSwitch.isOn
-        secondSlider.isEnabled = secondSwitch.isOn
-        thirdSlider.isEnabled = thirdSwitch.isOn
     }
    
 }
